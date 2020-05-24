@@ -43,7 +43,26 @@ var API_4_MINDMAP = function() {
                     if(id!=1) api4mindmap.jsFind(id, {del:1});
                 }
             }
+			this.jsRenderOneElement = function(id) { 
+		 	 	 var element = this_api.jsFind(id); 
+		 	 	 var childs_count = this_api.jsFindByParent(id).length; 
 
+		 	 	 var icon_type = '';
+		 	 	 if(element.icon) icon_type = element.icon; 
+		 	 	 
+		 	 	 if(childs_count>0) { 
+		 	 	 	var collapser_html = "<div class='collapse'></div>"; 
+			 	 	var icon = "<div class='type_icon'><i class='icon-folder-1 folder'><div class='count'>"+
+			 	 		childs_count+"</div></i><i class='"+icon_type+"'></i>"+"</div>";
+		 	 	 } else {
+			 	 	var collapser_html = "";
+			 	 	var icon = "<div class='type_icon'><i class='"+icon_type+"'></i></div>";
+		 	 	 }
+		 	 	 
+			 	 var answer = icon+"<div class='n_title' contenteditable='true'>"+element.title+
+			 	 			       "</div><div class='contextmenu'></div>"+collapser_html;
+			 	 return answer; 
+		 	 }
 
         };
         return arguments.callee.instance;
@@ -76,26 +95,7 @@ var API_4_MINDMAP = function() {
     }
 	
 	
-	 this.jsRenderOneElement = function(id) { 
-		 	 	 var element = this_api.jsFind(id); 
-		 	 	 var childs_count = this_api.jsFindByParent(id).length; 
-
-		 	 	 var icon_type = '';
-		 	 	 if(element.icon) icon_type = element.icon; 
-		 	 	 
-		 	 	 if(childs_count>0) { 
-		 	 	 	var collapser_html = "<div class='collapse'></div>"; 
-			 	 	var icon = "<div class='type_icon'><i class='icon-folder-1 folder'><div class='count'>"+
-			 	 		childs_count+"</div></i><i class='"+icon_type+"'></i>"+"</div>";
-		 	 	 } else {
-			 	 	var collapser_html = "";
-			 	 	var icon = "<div class='type_icon'><i class='"+icon_type+"'></i></div>";
-		 	 	 }
-		 	 	 
-			 	 var answer = icon+"<div class='n_title' contenteditable='true'>"+element.title+
-			 	 			       "</div><div class='contextmenu'></div>"+collapser_html;
-			 	 return answer; 
-		 	 }
+	 
 
 
     this.jsDrawMindmap = function(focus_id) {
