@@ -43,6 +43,16 @@ var API_4_MINDMAP = function() {
                     if(id!=1) api4mindmap.jsFind(id, {del:1});
                 }
             }
+			
+			 this.jsRenderAllMap = function(focus_id) { 
+		 	 	 if(!focus_id) focus_id = 1;
+			 	 var html = "<ul myid='"+focus_id+"'>";
+			 	 html = this_api.jsRenderOneParent(focus_id, html); 
+			 	 html += "</ul>";
+			 	 $("#mindmap").html(html);
+			 	 jsMakeDroppable(); 
+		 	 }
+			 
 			this.jsRenderOneElement = function(id) { 
 		 	 	 var element = this_api.jsFind(id); 
 		 	 	 var childs_count = this_api.jsFindByParent(id).length; 
