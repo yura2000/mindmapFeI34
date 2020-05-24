@@ -96,6 +96,92 @@ var API_4_MINDMAP = function() {
 	
 	
 	 
+    
+    
+    
+     this.jsRegAllKeys = function() { 
+
+			 	 $("#mindmap").on("keydown", ".n_title", function(e){ 
+					 
+			 	 	 if(e.keyCode==13) {
+				 	 	e.preventDefault();
+			 	 	 	$(this).blur(); 
+			 	 	 }
+			 	 });
+
+			 	 $("#mindmap").on("keyup", ".n_title", function(e){
+					 e.preventDefault();
+			 	 	 if(e.keyCode==13) $(this).blur(); 
+				 	 onResize(); 
+			 	 });
+
+			 	 $("#mindmap").on("blur", ".n_title", function(){ 
+			 	 	 var n_title_text = $(this).html();
+			 	 	 var id = $(this).parents("li:first").attr("myid");
+			 	 	 if(n_title_text.length==0) n_title_text = "new element"; 
+			 	 	 $(this).html( strip_tags(n_title_text) ); 
+			 	 	 this_api.jsFind(id, {title:n_title_text}); 
+				 	 onResize(); 
+			 	 });
+
+			 	 $("#mindmap").on("click", ".n_title", function(){ 
+			 	 	$(this).focus();
+			 	 });
+
+			 	 $("#mindmap").on("focus", ".n_title", function(){ 
+			 	 	var ntitle = $(this);
+ 	 		 	  	setTimeout(function(){ 
+		 	  		if(ntitle.is(":focus")) document.execCommand('selectAll',false,null); 
+		 	  		},3); 
+
+			 	 });
+			 	 
+			 	 $("#mindmap").on("click", ".collapse", function(){ 
+			 	 	$(this).parents("li:first").toggleClass("hide"); 
+			 	 	api4mindmap.jsDrawMindmap(1); 
+			 	 	onResize();
+			 	 	return false;
+			 	 });
+
+			 	 var font_size = 14; 
+			 	 $("#zoom_in").on("click", function(){ /
+			 	 	font_size += 1;
+			 	 	$("#mindmap").css("font-size", font_size+"px");
+			 	 	onResize();
+			 	 	return false;
+			 	 });
+			 	 $("#zoom_out").on("click", function(){ 
+			 	 	font_size -= 1;
+			 	 	$("#mindmap").css("font-size", font_size+"px");
+			 	 	onResize();
+			 	 	return false;
+			 	 });
+			 	 
+			 	 $("#collapse_all").on("click", function(){ 
+			 	 	$("#node_1 ul li").addClass("hide");
+			 	 	onResize();
+			 	 	return false;
+			 	 });
+
+			 	 $("#expand_all").on("click", function(){ 
+			 	 	$("#node_1 ul li").removeClass("hide"); 
+			 	 	onResize();
+			 	 	return false;
+			 	 });
+			 	 
+
+		 	 } 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
     this.jsDrawMindmap = function(focus_id) {
