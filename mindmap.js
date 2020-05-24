@@ -98,6 +98,24 @@ var API_4_MINDMAP = function() {
 		 	 }
 
 
+    this.jsDrawMindmap = function(focus_id) {
+
+        var line_cache = [];
+
+        $("#mindmap ul:visible").each(function(){
+            var ul_id = $(this).attr("myid");
+            var childs = this_api.jsFindByParent(ul_id);
+
+            $.each(childs, function(i,el){
+                var target = el.id;
+                if(!$("li[myid='"+target+"']"+" .big_n_title:first").hasClass("_jsPlumb_endpoint_anchor_")) {
+                    var parent_id = el.parent_id;
+                    line_cache.push( {source: parent_id, target: target} );
+                }
+            });
+        });
+
+
 
 
 
