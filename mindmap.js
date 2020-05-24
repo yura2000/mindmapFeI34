@@ -98,3 +98,90 @@ var API_4_MINDMAP = function() {
 
     }
 };
+
+var myjsPlumb;
+
+function jsDoFirst() {
+    api4mindmap = new API_4_MINDMAP();
+
+    jsPlumb.Defaults.Container = $("#mindmap");
+    myjsPlumb = jsPlumb.getInstance({
+        DragOptions: { cursor: 'pointer', zIndex: 2000 },
+        PaintStyle: {
+            lineWidth: 1,
+            strokeStyle: "#888"
+        },
+        Connector: ["Bezier", { curviness: 30 }],
+        Endpoint: ["Blank", { radius: 5 }],
+        EndpointStyle: { fillStyle: "#567567" },
+        Anchors: [
+            [1, 1, 1, 0, -1, -1],
+            [0, 1, -1, 0, 1, -1]
+        ]
+    });
+
+    var icons_html = jsGetIcons(0);
+
+    $.contextMenu({
+        selector: '.contextmenu',
+        trigger: 'left',
+        callback: function(key, options) {
+            var id = $(this).parents("li:first").attr("myid");
+            if (/icon-/ig.test(key)) {
+                api4mindmap.jsFind(id, { icon: key });
+                api4mindmap.jsRefreshMindmap();
+            } else if (key == "delete") {
+                api4mindmap.jsDeleteById(id);
+                api4mindmap.jsRefreshMindmap(id);
+            } else if (key == "add_down") {
+                var parent_id = api4mindmap.jsFind(id).parent_id;
+                var new_id = api4mindmap.jsAddNew(parent_id, "New element");
+                api4mindmap.jsRefreshMindmap();
+                $("#node_" + new_id + " .n_title").focus();
+            } else if (key == "add_right") {
+                var new_id = api4mindmap.jsAddNew(id, "New element");
+                $(this).parents("li").removeClass("hide");
+                api4mindmap.jsRefreshMindmap();
+                $("#node_" + new_id + " .n_title").focus();
+            }
+        },
+        delay: 0,
+        items: {
+            "add_down": { "name": "Add bottom", "icon": "icon-down-1" },
+            "add_right": { "name": "Add right", "icon": "icon-right-1" },
+            "sep1": "--------",
+            "delete": { "name": "Delete", "icon": "icon-trash" },
+            "context_make_did1011": {
+                "name": "Icon",
+                "icon": "icon-emo-wink",
+                "items": icons_html
+            }
+        }
+    });
+
+    var mindmap_store_schema = {
+        name: "mindmap_db",
+        keyPath: 'id',
+        autoIncrement: false
+    };
+
+    var schema = {
+        stores: [mindmap_store_schema]
+    };
+
+    if (navigator.userAgent.toLowerCase().indexOf("android") != -1) {
+        var options = { mechanisms: ['websql', 'indexeddb'] };
+    } else {
+        var options = {};
+    }
+
+    db = new ydn.db.Storage('_all_mindmap', schema, options);
+
+    api4mindmap.jsLoadAllFromDB().done(function() {
+        api4mindmap.jsRegAllKeys();
+        api4mindmap.jsRenderAllMap(1);
+        api4mindmap.jsDrawMindmap(1);
+        onResize();
+    });
+
+}
