@@ -34,6 +34,16 @@ var API_4_MINDMAP = function() {
 
             };
 
+            this.jsDeleteById = function(id) {
+                if(confirm("Delete element №"+id+" and its relatives?")) {
+                    var childs = this_api.jsRecursiveByParent(id);
+                    $.each(childs, function(i, el){
+                        api4mindmap.jsFind(el.id, {del:1});
+                    });
+                    if(id!=1) api4mindmap.jsFind(id, {del:1});
+                }
+            }
+
 
         };
         return arguments.callee.instance;
