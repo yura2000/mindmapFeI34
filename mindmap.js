@@ -254,11 +254,11 @@ function jsDoFirst() {
 	           api4mindmap.jsRefreshMindmap(id);
             } else if(key == "add_down") { //добавляєм вниз
             	var parent_id = api4mindmap.jsFind(id).parent_id;
-	            var new_id = api4mindmap.jsAddNew(parent_id, "Новый элемент");
+	            var new_id = api4mindmap.jsAddNew(parent_id, "Новий елемент");
 	            api4mindmap.jsRefreshMindmap();
 	            $("#node_"+new_id+" .n_title").focus();
             } else if(key == "add_right") { //добавляєм всередину
-	            var new_id = api4mindmap.jsAddNew(id, "Новый элемент");
+	            var new_id = api4mindmap.jsAddNew(id, "Новий елемент");
 	            $(this).parents("li").removeClass("hide");
 	            api4mindmap.jsRefreshMindmap();
 	            $("#node_"+new_id+" .n_title").focus();
@@ -266,11 +266,11 @@ function jsDoFirst() {
         },
         delay:0,
         items: {
-        	"add_down": {"name":"Добавить вниз", "icon": "icon-down-1"},
-        	"add_right": {"name":"Добавить вправо", "icon": "icon-right-1"},
+        	"add_down": {"name":"Добавити вниз", "icon": "icon-down-1"},
+        	"add_right": {"name":"Добавити вправо", "icon": "icon-right-1"},
         	"sep1": "--------",
-        	"delete": {"name":"Удалить", "icon": "icon-trash"},
-            "context_make_did1011": {"name": "Иконка", "icon": "icon-emo-wink", 
+        	"delete": {"name":"Удалити", "icon": "icon-trash"},
+            "context_make_did1011": {"name": "Іконка", "icon": "icon-emo-wink", 
 	            "items": icons_html //згенеровані пункти меню з іконками
             }
 		}
