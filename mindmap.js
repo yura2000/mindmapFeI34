@@ -1,25 +1,23 @@
 var API_4_MINDMAP = function() {
     if ((typeof arguments.callee.instance == 'undefined')) {
-        arguments.callee.instance = new function () {
+        arguments.callee.instance = new function() {
             var this_api = this;
 
             var my_all_data = {};
 
-
-            this.jsSaveAllToDB = function () {
-                $.each(my_all_data, function (i, el) {
-                    db.put("mindmap_db", el).done(function () {
-                    });
+            this.jsSaveAllToDB = function() {
+                $.each(my_all_data, function(i, el) {
+                    db.put("mindmap_db", el).done(function() {});
                 });
             };
 
-            this.jsLoadAllFromDB = function () {
+            this.jsLoadAllFromDB = function() {
                 var d = new $.Deferred();
 
                 my_all_data = {};
-                db.values("mindmap_db", null, 99999999).done(function (records) {
+                db.values("mindmap_db", null, 99999999).done(function(records) {
                     if (records.length) {
-                        $.each(records, function (i, el) {
+                        $.each(records, function(i, el) {
                             my_all_data["n" + el.id] = {};
                             my_all_data["n" + el.id] = el;
                         });
@@ -240,41 +238,43 @@ function jsDoFirst() {
 
     var icons_html = jsGetIcons(0);
 
-   
-	$.contextMenu({ //генеруєм контекстне меню наперед і назначаєм на клік лівої кнопки миші в .contextmenu
-        selector: '.contextmenu', 
+
+    $.contextMenu({
+        selector: '.contextmenu',
         trigger: 'left',
         callback: function(key, options) {
-        	var id = $(this).parents("li:first").attr("myid");
-            if( /icon-/ig.test(key) ) { //назначаєм іконку
-            	api4mindmap.jsFind(id, {icon:key});
-	            api4mindmap.jsRefreshMindmap();
-            } else if(key == "delete") { //видаляєм елемент і нащадків
-	           api4mindmap.jsDeleteById(id);
-	           api4mindmap.jsRefreshMindmap(id);
-            } else if(key == "add_down") { //добавляєм вниз
-            	var parent_id = api4mindmap.jsFind(id).parent_id;
-	            var new_id = api4mindmap.jsAddNew(parent_id, "Новий елемент");
-	            api4mindmap.jsRefreshMindmap();
-	            $("#node_"+new_id+" .n_title").focus();
-            } else if(key == "add_right") { //добавляєм всередину
-	            var new_id = api4mindmap.jsAddNew(id, "Новий елемент");
-	            $(this).parents("li").removeClass("hide");
-	            api4mindmap.jsRefreshMindmap();
-	            $("#node_"+new_id+" .n_title").focus();
+            var id = $(this).parents("li:first").attr("myid");
+            if (/icon-/ig.test(key)) {
+                api4mindmap.jsFind(id, { icon: key });
+                api4mindmap.jsRefreshMindmap();
+            } else if (key == "delete") {
+                api4mindmap.jsDeleteById(id);
+                api4mindmap.jsRefreshMindmap(id);
+            } else if (key == "add_down") {
+                var parent_id = api4mindmap.jsFind(id).parent_id;
+                var new_id = api4mindmap.jsAddNew(parent_id, "Новий елемент");
+                api4mindmap.jsRefreshMindmap();
+                $("#node_" + new_id + " .n_title").focus();
+            } else if (key == "add_right") {
+                var new_id = api4mindmap.jsAddNew(id, "Новий елемент");
+                $(this).parents("li").removeClass("hide");
+                api4mindmap.jsRefreshMindmap();
+                $("#node_" + new_id + " .n_title").focus();
             }
         },
-        delay:0,
+        delay: 0,
         items: {
-        	"add_down": {"name":"Добавити вниз", "icon": "icon-down-1"},
-        	"add_right": {"name":"Добавити вправо", "icon": "icon-right-1"},
-        	"sep1": "--------",
-        	"delete": {"name":"Удалити", "icon": "icon-trash"},
-            "context_make_did1011": {"name": "Іконка", "icon": "icon-emo-wink", 
-	            "items": icons_html //згенеровані пункти меню з іконками
+            "add_down": { "name": "Добавити вниз", "icon": "icon-down-1" },
+            "add_right": { "name": "Добавити вправо", "icon": "icon-right-1" },
+            "sep1": "--------",
+            "delete": { "name": "Удалити", "icon": "icon-trash" },
+            "context_make_did1011": {
+                "name": "Іконка",
+                "icon": "icon-emo-wink",
+                "items": icons_html
             }
-		}
-		});	
+        }
+    });
 
     var mindmap_store_schema = {
         name: "mindmap_db",
