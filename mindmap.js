@@ -265,6 +265,10 @@ var API_4_MINDMAP = function() {
     }
 }
 
+function onResize() {
+    myjsPlumb.setSuspendDrawing(false, true);
+}
+
 function jsGetIcons(n) {
     var icons = {};
 
@@ -297,6 +301,67 @@ function jsGetIcons(n) {
 
     return answer;
 }
+
+function jsMakeDroppable() {
+
+    $(".n_title").not("ui-draggable").draggable({
+        zIndex: 999,
+        delay: 50,
+        revert: false,
+        helper: "clone",
+        appendTo: "body",
+        refreshPositions: true
+    });
+
+    $(".n_title").not("ui-droppable").droppable({
+        accept: ".n_title",
+        activeClass: "ui-can-recieve",
+        tolerance: "pointer",
+        hoverClass: "ui-can-hover",
+        over: function(event, ui) {},
+        drop: function(event, ui) {
+
+            var my_draggable = $(ui.draggable[0]);
+            var my_droppable = $(event.target);
+
+            my_draggable_id = my_draggable.parents("li:first").attr("myid");
+            my_droppable_id = my_droppable.parents("li:first").attr("myid");
+
+            if (jsCanDrop(my_draggable_id, my_droppable_id)) {
+                api4mindmap.jsFind(my_draggable_id, { parent_id: my_droppable_id });
+                api4mindmap.jsRefreshMindmap();
+                $(".ui-draggable-dragging").remove();
+
+            } else {
+                alert("can not transfer the element inside itself");
+            }
+
+        }
+    });
+
+}
+
+function jsCanDrop(draggable_id, droppable_id) {
+    var can_drop = true;
+    var all_childs = api4mindmap.jsRecursiveByParent(my_draggable_id);
+    $.each(all_childs, function(i, el) {
+        console.info(el.id, droppable_id);
+        if (el.id == droppable_id)
+            can_drop = false;
+    });
+
+    if (draggable_id == droppable_id) var can_drop = false;
+
+    return can_drop;
+}
+
+function strip_tags(str) {
+    if (!str) return "";
+    answer = str.replace(/<\/?[^>]+>/gi, '');
+    answer = answer.replace(/\n/gi, '');
+    return answer;
+}
+
 var myjsPlumb;
 
 function jsDoFirst() {
