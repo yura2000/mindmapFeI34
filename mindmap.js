@@ -259,7 +259,44 @@ var API_4_MINDMAP = function() {
                         }
                     });
                 });
-            };
+
+                if (line_cache.length) {
+                    if (!myjsPlumb.isSuspendDrawing()) {
+                        myjsPlumb.setSuspendDrawing(true, true);
+                        console.info("set_suspend");
+                    }
+                }
+
+
+                $.each(line_cache, function(i, el) {
+
+                    if (el.source == 1) {
+                        anchor1 = [1, 0.5, 1, 0, -1, -1];
+                    } else {
+                        anchor1 = [1, 1, 1, 0, -1, -1];
+                    }
+
+                    var p1 = myjsPlumb.addEndpoint("node_" + el.source + " .big_n_title:first", { anchor: anchor1 });
+                    var p2 = myjsPlumb.addEndpoint("node_" + el.target + " .big_n_title:first", { anchor: [0, 1, -1, 0, 1, -1] });
+                    var count = this_api.jsFindByParent(el.source).length;
+
+                    if (count > 10) {
+                        var LineType = "Straight";
+                    } else {
+                        var LineType = "Bezier";
+                    }
+
+                    myjsPlumb.connect({
+                        source: p1,
+                        target: p2,
+                        scope: "someScope",
+                        deleteEndpointsOnDetach: true,
+                        connector: [LineType,
+                            { curviness: 30, cornerRadius: 20 }
+                        ]
+                    });
+                });
+            }
             return arguments.callee.instance;
         };
     }
