@@ -5,6 +5,10 @@ var API_4_MINDMAP = function() {
 
             var my_all_data = {};
 
+            var my_all_data_template = {
+                "n1": { id: 1, parent_id: 0, title: "MindMap" },
+            };
+
             this.jsSaveAllToDB = function() {
                 $.each(my_all_data, function(i, el) {
                     db.put("mindmap_db", el).done(function() {});
