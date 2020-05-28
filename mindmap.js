@@ -297,9 +297,9 @@ var API_4_MINDMAP = function() {
                     });
                 });
             }
-            return arguments.callee.instance;
         };
     }
+    return arguments.callee.instance;
 }
 
 function onResize() {
