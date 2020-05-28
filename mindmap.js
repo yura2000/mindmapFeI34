@@ -332,7 +332,7 @@ function jsGetIcons(n) {
         });
 
         answer["icon-group" + icon_group] = {};
-        answer["icon-group" + icon_group] = { name: "Набор №" + (parseInt(j) + 1), icon: "icon-" + icons[j][0], items: sub_icons };
+        answer["icon-group" + icon_group] = { name: "Набір №" + (parseInt(j) + 1), icon: "icon-" + icons[j][0], items: sub_icons };
 
     });
 
@@ -451,7 +451,7 @@ function jsDoFirst() {
             "add_down": { "name": "Добавити вниз", "icon": "icon-down-1" },
             "add_right": { "name": "Добавити вправо", "icon": "icon-right-1" },
             "sep1": "--------",
-            "delete": { "name": "Удалити", "icon": "icon-trash" },
+            "delete": { "name": "Видалити", "icon": "icon-trash" },
             "context_make_did1011": {
                 "name": "Іконка",
                 "icon": "icon-emo-wink",
