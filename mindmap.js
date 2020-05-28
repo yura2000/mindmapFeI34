@@ -265,6 +265,38 @@ var API_4_MINDMAP = function() {
     }
 }
 
+function jsGetIcons(n) {
+    var icons = {};
+
+    icons[0] = ["progress-0", "progress-1", "progress-2", "progress-3", "dot", "dot-2", "dot-3", "star-empty", "star", "record"];
+    icons[1] = ["check", "heart-empty", "heart", "bookmark-empty", "bookmark", "ok-2", "help", "wallet", "mail-2", "cloud"];
+    icons[2] = ["tree", "chat-2", "article-alt", "volume", "flash", "aperture-alt", "layers", "steering-wheel", "skiing", "flight"];
+    icons[3] = ["lock-open", "lock", "umbrella", "camera", "book-open", "clock-1", "plus", "minus", "trash", "music"];
+    icons[4] = ["calculator", "address", "pin", "vcard", "basket-1", "swimming", "youtube", "leaf", "mic", "target"];
+    icons[5] = ["monitor", "phone", "download", "bell", "at", "pause", "play", "stop-1", "flag", "key"];
+    icons[6] = ["users-1", "eye", "inbox", "brush", "moon", "college", "fast-food", "coffee", "top-list", "bag"];
+    icons[7] = ["chart-area", "info", "home-1", "hourglass", "attention", "scissors", "tint", "guidedog", "archive", "flow-line"];
+    icons[8] = ["emo-grin", "emo-happy", "emo-wink", "emo-sunglasses", "emo-thumbsup", "emo-sleep", "emo-unhappy", "emo-devil", "emo-surprised", "emo-tongue"];
+    icons[9] = ["plus", "minus", "keyboard", "fast-fw", "to-end", "to-start", "cancel-circle", "check", "flash", "feather"];
+    icons[10] = ["plus-circle", "pencil-alt", "target-1", "chart-pie", "adjust", "user-add", "volume", "install", "flow-cascade", "sitemap"];
+    icons[11] = ["minus-circle", "clock-1", "light-down", "light-up", "lamp", "upload", "picture-2", "dollar", "gift", "link-1"];
+
+    answer = {};
+
+    $.each(icons, function(j, icon_group) {
+        sub_icons = {};
+        $.each(icons[j], function(i, icon) {
+            sub_icons["icon-" + icon] = {};
+            sub_icons["icon-" + icon] = { name: icon, icon: "icon-" + icon };
+        });
+
+        answer["icon-group" + icon_group] = {};
+        answer["icon-group" + icon_group] = { name: "Набор №" + (parseInt(j) + 1), icon: "icon-" + icons[j][0], items: sub_icons };
+
+    });
+
+    return answer;
+}
 var myjsPlumb;
 
 function jsDoFirst() {
